@@ -4,13 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "chromedriver": "^84.0.1",
+    "cross-spawn": "^7.0.3",
     "express": "^4.17.1",
-    "express-http-proxy": "^1.6.2"
+    "express-http-proxy": "^1.6.2",
+    "nightwatch": "^1.3.7",
+    "selenium-server": "^3.141.59"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "nodemonConfig": {
+    "ignore": ["projects/*"]
   }
 }
