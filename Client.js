@@ -54,6 +54,8 @@ class Client {
     nightWatchConfig.output_folder = `projects/${this.projectName}/reports`
     const date = new Date()
     nightWatchConfig.dateString = `${date.getFullYear()}_${date.getMonth()+1}_${date.getDate()}_${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}`
+    nightWatchConfig.mockServerUrl = this.mockServerUrl
+
     const fs = require('fs')
     const writeStream = fs.createWriteStream(`projects/${this.projectName}/nightwatch.conf.js`)
     await new Promise((resolve, reject) => {
