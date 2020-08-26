@@ -50,14 +50,14 @@ class Client {
 
   async test() {
     const nightWatchConfig = require('./nightwatch.conf.js')
-    nightWatchConfig.src_folders = [`projects/${this.projectName}/tests`]
-    nightWatchConfig.output_folder = `projects/${this.projectName}/reports`
+    nightWatchConfig.src_folders = [`server/projects/${this.projectName}/tests`]
+    nightWatchConfig.output_folder = `server/projects/${this.projectName}/reports`
     const date = new Date()
     nightWatchConfig.dateString = `${date.getFullYear()}_${date.getMonth()+1}_${date.getDate()}_${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}`
     nightWatchConfig.mockServerUrl = this.mockServerUrl
 
     const fs = require('fs')
-    const writeStream = fs.createWriteStream(`projects/${this.projectName}/nightwatch.conf.js`)
+    const writeStream = fs.createWriteStream(`server/projects/${this.projectName}/nightwatch.conf.js`)
     await new Promise((resolve, reject) => {
       writeStream.write('module.exports = ')
       writeStream.write(JSON.stringify(nightWatchConfig))
@@ -69,10 +69,10 @@ class Client {
     })
 
     await new Promise((resolve, reject) => {
-      const instance = `node test.js --config projects/${this.projectName}/nightwatch.conf.js`
+      const instance = `node server/run.js --config server/projects/${this.projectName}/nightwatch.conf.js`
       const child = exec(instance, err => {
         if (err) throw err
-        fs.unlink(`projects/${this.projectName}/nightwatch.conf.js`, err => {
+        fs.unlink(`server/projects/${this.projectName}/nightwatch.conf.js`, err => {
           if (err) reject(err)
           console.log('Cleaned up Nightwatch config file')
           resolve()
