@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom'
 import './App.css'
 
-import Alert from './components/Alert'
+import Alert from './components/alert/Alert'
+import ProjectList from './container/project/ProjectList'
 
 import { connect } from 'react-redux'
 
@@ -22,17 +23,14 @@ function App({ alerts}) {
   return (
     <Router>
       <div className="App">
-        <header className="header">AcuMock</header>
+        <header className="header">AcuTest</header>
         {alertElements}
         <Switch>
           <Route path="/" exact>
-            <div>/</div>
+            <ProjectList />
           </Route>
-          <Route path="/1">
-            <div>1</div>
-          </Route>
-          <Route path="/2">
-            <div>2</div>
+          <Route path="/:project">
+            <div>project</div>
           </Route>
         </Switch>
       </div>

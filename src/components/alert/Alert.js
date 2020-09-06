@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert } from 'antd'
 import { connect } from 'react-redux'
 
-import { hideAlert } from '../store/alert/actions'
+import { hideAlert } from '../../store/alert/actions'
 
 const CustomAlert = (props) => {
   return (

@@ -1,1 +1,50 @@
 @import '~antd/dist/antd.css';
+
+#root, .App {
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.App {
+  overflow-y: auto;
+}
+
+.alert-holder {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 9999;
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  height: 56px;
+  line-height: 56px;
+  background-color: #fff;
+  padding: 0 20px;
+  font-size: 1.5em;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.project-list {
+  display: flex;
+}
+
+.project-list .ant-card {
+  margin: 0.5rem;
+  min-height: 85px;
+}
