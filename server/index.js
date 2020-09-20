@@ -17,11 +17,19 @@ server.get('/api/project', basicRequestHandler((req, res) => {
   })
 }))
 
-server.post('/api/project/:projectName', basicRequestHandler(async (req, res) => {
+server.patch('/api/project/:projectName/status', basicRequestHandler(async (req, res) => {
   const { port, mockServerUrl } = req.body
   const project = new Client(port, req.params.projectName, mockServerUrl)
   await project.start()
   await project.test()
+  res.sendStatus(200)
+}))
+
+server.patch('/api/project/:projectName/test', basicRequestHandler(async (req, res) => {
+  const { port, mockServerUrl } = req.body
+  const project = new Client(port, req.params.projectName, mockServerUrl)
+  await project.start()
+  // await project.test()
   res.sendStatus(200)
 }))
 

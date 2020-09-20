@@ -8,6 +8,7 @@ import './App.css'
 
 import Alert from './components/alert/Alert'
 import ProjectList from './container/project/ProjectList'
+import NewProject from './container/project/NewProject'
 
 import { connect } from 'react-redux'
 
@@ -28,6 +29,9 @@ function App({ alerts}) {
         <Switch>
           <Route path="/" exact>
             <ProjectList />
+          </Route>
+          <Route path="/new_project">
+            <NewProject />
           </Route>
           <Route path="/:project">
             <div>project</div>

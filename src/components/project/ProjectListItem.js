@@ -1,10 +1,14 @@
 import React from 'react'
-import { Card, Popconfirm } from 'antd'
+import axios from 'axios'
+import { Button, Card, Popconfirm } from 'antd'
 import { SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 
 const ProjectListItem = ({
   projectName
 }) => {
+  const startProject = () => {
+    axios.patch(`/api/project/${projectName}/status`, { running: true, port: 5000, mockServerUrl: 'http://localhost:8000' })
+  }
   const deleteProject = () => {}
 
   return (
@@ -26,7 +30,7 @@ const ProjectListItem = ({
         </React.Fragment>
       }
     >
-
+      <Button type="primary" onClick={() => {startProject()}}>Start Test</Button>
     </Card>
   )
 }

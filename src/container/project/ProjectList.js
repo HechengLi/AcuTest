@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import Spinner from '../../components/spinner/Spinner'
 import ProjectListItem from '../../components/project/ProjectListItem'
 import { getProjectList } from '../../store/projectList/actions'
@@ -9,6 +12,8 @@ const ProjectList = ({
   fetchingProjectList,
   getProjectList
 }) => {
+  const history = useHistory()
+
   useEffect(() => {
     getProjectList()
   }, [getProjectList])
@@ -24,6 +29,15 @@ const ProjectList = ({
       {
         projectList.map((projectName, i) => <ProjectListItem projectName={projectName} key={i} />)
       }
+      <div className="new-project ant-card ant-card-bordered ant-card-small" style={{ width: 94 }} >
+        <Button
+          size="small"
+          type="link"
+          onClick={() => history.push('/new_project')}
+        >
+          <PlusOutlined />
+        </Button>
+      </div>
     </div>
   )
 }

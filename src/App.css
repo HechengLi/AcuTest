@@ -48,3 +48,25 @@
   margin: 0.5rem;
   min-height: 85px;
 }
+
+.new-project .ant-btn {
+  height: 100%;
+  width: 100%;
+  color: #52c41a;
+  background-color: #fff;
+  transition: color 0.4s, background-color 0.4s;
+  border-radius: 0;
+}
+
+.new-project .ant-btn:hover {
+  color: #fff;
+  background-color: #52c41a;
+}
+
+.App .ant-form-item {
+  margin-bottom: 0.5rem;
+}
+
+.App .ant-input {
+  width: 200px;
+}
