@@ -8,7 +8,7 @@ function cleanExit() { process.exit() }
 
 class Client {
   constructor(port, projectName, mockServerUrl) {
-    this.port = port
+    this.port = port // this port should be selected automatically
     this.projectName = projectName
     this.mockServerUrl = mockServerUrl
     this.app = express()
