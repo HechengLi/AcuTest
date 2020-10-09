@@ -51,6 +51,7 @@ const NewProject = () => {
         <Upload
           name="bundle"
           beforeUpload={() => false}
+          accept=".zip"
         >
           <Button icon={<UploadOutlined />}>Click to Upload</Button>
         </Upload>

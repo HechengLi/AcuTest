@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
+    "adm-zip": "^0.4.16",
     "antd": "^4.6.1",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
@@ -32,6 +33,7 @@
     "react-scripts": "^3.4.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "rimraf": "^3.0.2",
     "selenium-server": "^3.141.59"
   },
   "devDependencies": {

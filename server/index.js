@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
+const AdmZip = require('adm-zip')
+const rmdir = require('rimraf')
 const Client = require('./Client')
 const basicRequestHandler = require('./handlers/basicRequestHandler')
 
@@ -25,7 +27,7 @@ const storage = multer.diskStorage({
     cb(null, projectPath)
   },
   filename: (req, file, cb) => {
-    cb(null, 'test.txt')
+    cb(null, 'bundle.zip')
   }
 })
 const upload = multer({ storage })
@@ -46,6 +48,25 @@ server.post('/api/project', basicRequestHandler(async (req, res) => {
       else resolve()
     })
   })
+
+  try {
+    const zip = new AdmZip(path.join(__dirname, `projects/${req.body.projectName}/bundle.zip`))
+    zip.extractAllTo(path.join(__dirname, `projects/${req.body.projectName}/dist`), true)
+  } catch (err) {
+    rmdir(path.join(__dirname, `projects/${req.body.projectName}`), err => {
+      console.log('Cleaned up project folder')
+    })
+    throw err
+  }
+
+  await new Promise((resolve, reject) => {
+    fs.unlink(path.join(__dirname, `projects/${req.body.projectName}/bundle.zip`), err => {
+      if (err) reject(err)
+      console.log('Cleaned up bundle.zip')
+      resolve()
+    })
+  })
+
   res.sendStatus(200)
 }))
 
