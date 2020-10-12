@@ -67,6 +67,13 @@ server.post('/api/project', basicRequestHandler(async (req, res) => {
     })
   })
 
+  await new Promise((resolve, reject) => {
+    fs.mkdir(path.join(__dirname, `projects/${req.body.projectName}/tests`), err => {
+      if (err) reject(err)
+      resolve()
+    })
+  })
+
   res.sendStatus(200)
 }))
 
@@ -79,6 +86,7 @@ server.patch('/api/project/:projectName/status', basicRequestHandler(async (req,
 }))
 
 server.patch('/api/project/:projectName/test', basicRequestHandler(async (req, res) => {
+  // TODO: replace port with port-finder, mock server url should be read from disk
   const { port, mockServerUrl } = req.body
   const project = new Client(port, req.params.projectName, mockServerUrl)
   await project.start()

@@ -71,7 +71,7 @@ class Client {
     await new Promise((resolve, reject) => {
       const instance = `node server/run.js --config server/projects/${this.projectName}/nightwatch.conf.js`
       const child = exec(instance, err => {
-        if (err) throw err
+        if (err) reject(err)
         fs.unlink(`server/projects/${this.projectName}/nightwatch.conf.js`, err => {
           if (err) reject(err)
           console.log('Cleaned up Nightwatch config file')
