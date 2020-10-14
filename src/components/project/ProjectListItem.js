@@ -7,7 +7,7 @@ const ProjectListItem = ({
   projectName
 }) => {
   const startProject = () => {
-    axios.patch(`/api/project/${projectName}/status`, { running: true, port: 5000, mockServerUrl: 'http://localhost:8000' })
+    axios.patch(`/api/project/${projectName}/status`, { running: true })
   }
   const deleteProject = () => {}
 

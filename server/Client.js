@@ -3,12 +3,12 @@ const express = require('express')
 const path = require('path')
 const url = require('url')
 const proxy = require('express-http-proxy')
+const portfinder = require('portfinder')
 
 function cleanExit() { process.exit() }
 
 class Client {
-  constructor(port, projectName, mockServerUrl) {
-    this.port = port // this port should be selected automatically
+  constructor(projectName, mockServerUrl) {
     this.projectName = projectName
     this.mockServerUrl = mockServerUrl
     this.app = express()
@@ -28,13 +28,16 @@ class Client {
 
   start() {
     if (!this.running) {
-      return new Promise((resolve, reject) => {
-        this.server = this.app.listen(this.port, function() {
-          console.log(`Project ${this.projectName} running on port ${this.port}, redirect to ${this.mockServerUrl}`)
-          this.running = true
-          resolve()
-        }.bind(this))
-      })
+      return portfinder.getPortPromise()
+        .then((port) => {
+          this.server = this.app.listen(port, function() {
+            console.log(`Project ${this.projectName} running on port ${port}, redirect to ${this.mockServerUrl}`)
+            this.running = true
+          }.bind(this))
+        })
+        .catch(err => {
+          throw err
+        })
     }
   }
 
@@ -75,10 +78,9 @@ class Client {
         fs.unlink(`server/projects/${this.projectName}/nightwatch.conf.js`, err => {
           if (err) reject(err)
           console.log('Cleaned up Nightwatch config file')
+          child.kill()
           resolve()
         })
-        child.kill()
-        this.close()
       })
 
       child.stdout.on('data', (data) => {
@@ -88,9 +90,9 @@ class Client {
         console.log(data.toString())
       })
 
-      process.on('SIGINT', cleanExit)
-      process.on('SIGTERM', cleanExit)
-      process.on('exit', () => {
+      child.on('SIGINT', cleanExit)
+      child.on('SIGTERM', cleanExit)
+      child.on('exit', () => {
         console.log('Server Stopped')
         child.kill()
         this.close()

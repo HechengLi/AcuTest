@@ -1,7 +1,7 @@
 // http://nightwatchjs.org/gettingstarted#settings-file
 // 具体的配置项可以去nightwatch的官网查看
-//chromedriver 地址
-//http://chromedriver.storage.googleapis.com/index.html
+// chromedriver 地址
+// http://chromedriver.storage.googleapis.com/index.html
 module.exports = {
   src_folders: [],
   output_folder: '',
@@ -23,6 +23,7 @@ module.exports = {
         start_process: false
       }
     },
+
     'selenium.chrome': {
       extends: 'selenium',
       desiredCapabilities: {

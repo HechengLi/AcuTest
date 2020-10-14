@@ -5,6 +5,7 @@ const path = require('path')
 const fs = require('fs')
 const AdmZip = require('adm-zip')
 const rmdir = require('rimraf')
+const nconf = require('nconf')
 const Client = require('./Client')
 const basicRequestHandler = require('./handlers/basicRequestHandler')
 
@@ -49,18 +50,20 @@ server.post('/api/project', basicRequestHandler(async (req, res) => {
     })
   })
 
+  const { projectName, serverUrl } = req.body
+
   try {
-    const zip = new AdmZip(path.join(__dirname, `projects/${req.body.projectName}/bundle.zip`))
-    zip.extractAllTo(path.join(__dirname, `projects/${req.body.projectName}/dist`), true)
+    const zip = new AdmZip(path.join(__dirname, `projects/${projectName}/bundle.zip`))
+    zip.extractAllTo(path.join(__dirname, `projects/${projectName}/dist`), true)
   } catch (err) {
-    rmdir(path.join(__dirname, `projects/${req.body.projectName}`), err => {
+    rmdir(path.join(__dirname, `projects/${projectName}`), err => {
       console.log('Cleaned up project folder')
     })
     throw err
   }
 
   await new Promise((resolve, reject) => {
-    fs.unlink(path.join(__dirname, `projects/${req.body.projectName}/bundle.zip`), err => {
+    fs.unlink(path.join(__dirname, `projects/${projectName}/bundle.zip`), err => {
       if (err) reject(err)
       console.log('Cleaned up bundle.zip')
       resolve()
@@ -68,7 +71,19 @@ server.post('/api/project', basicRequestHandler(async (req, res) => {
   })
 
   await new Promise((resolve, reject) => {
-    fs.mkdir(path.join(__dirname, `projects/${req.body.projectName}/tests`), err => {
+    fs.mkdir(path.join(__dirname, `projects/${projectName}/tests`), err => {
+      if (err) reject(err)
+      resolve()
+    })
+  })
+
+  await new Promise((resolve, reject) => {
+    fs.writeFileSync(path.join(__dirname, `projects/${projectName}/config.json`), '{}')
+    nconf.argv()
+      .env()
+      .file({ file: path.join(__dirname, `projects/${projectName}/config.json`) })
+    nconf.set('serverUrl', serverUrl)
+    nconf.save(err => {
       if (err) reject(err)
       resolve()
     })
@@ -78,21 +93,23 @@ server.post('/api/project', basicRequestHandler(async (req, res) => {
 }))
 
 server.patch('/api/project/:projectName/status', basicRequestHandler(async (req, res) => {
-  const { port, mockServerUrl } = req.body
-  const project = new Client(port, req.params.projectName, mockServerUrl)
+  const projectName = req.params.projectName
+  const { serverUrl } = JSON.parse(fs.readFileSync(path.join(__dirname, `projects/${projectName}/config.json`)).toString())
+  const project = new Client(projectName, serverUrl)
   await project.start()
   await project.test()
   res.sendStatus(200)
 }))
 
+/*
 server.patch('/api/project/:projectName/test', basicRequestHandler(async (req, res) => {
-  // TODO: replace port with port-finder, mock server url should be read from disk
   const { port, mockServerUrl } = req.body
   const project = new Client(port, req.params.projectName, mockServerUrl)
   await project.start()
   // await project.test()
   res.sendStatus(200)
 }))
+*/
 
 server.listen(3001, function() {
   console.log('AcuTest started on port 3001')
