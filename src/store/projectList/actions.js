@@ -15,6 +15,7 @@ function receivedProjectList(projectList) {
     projectList
   }
 }
+
 export function getProjectList() {
   return (dispatch, getState) => {
     if (getState().projectList.fetching) return
