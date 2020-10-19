@@ -11,11 +11,14 @@ const ProjectListItem = ({
   const startProject = () => {
     if (testing) return
     setTesting(true)
-    axios.patch(`/api/project/${projectName}/status`, { running: true }).then(response => {
-      console.log(response)
-      message.success(`Project ${projectName} testing completed`, 5)
-      setTesting(false)
-    })
+    axios.patch(`/api/project/${projectName}/status`, { running: true })
+      .then(() => {
+        message.success(`Project ${projectName} testing completed`, 5)
+      }).catch(err => {
+        message.error(err.response.data, 5)
+      }).finally(() => {
+        setTesting(false)
+      })
   }
 
   const configProject = () => {
