@@ -48,10 +48,9 @@ const NewEditProject = () => {
         message.success(`Project ${values.projectName} created successfully`, 5)
         history.push('/')
       }).catch(err => {
-      message.error(`Project create failed: ${err.response.data}`, 5)
-    }).finally(() => {
-      setSaving(false)
-    })
+        message.error(`Project create failed: ${err.response.data}`, 5)
+        setSaving(false)
+      })
   }
 
   const update = values => {
@@ -64,10 +63,9 @@ const NewEditProject = () => {
         message.success(`Project ${values.projectName} saved successfully`, 5)
         history.push('/')
       }).catch(err => {
-      message.error(`Project save failed: ${err.response.data}`, 5)
-    }).finally(() => {
-      setSaving(false)
-    })
+        message.error(`Project save failed: ${err.response.data}`, 5)
+        setSaving(false)
+      })
   }
 
   const onFinish = values => {

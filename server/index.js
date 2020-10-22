@@ -158,6 +158,17 @@ server.patch('/api/project/:projectName/status', basicRequestHandler(async (req,
   res.sendStatus(200)
 }))
 
+server.delete('/api/project/:projectName', basicRequestHandler(async (req, res) => {
+  const { projectName } = req.params
+  await new Promise((resolve, reject) => {
+    rmdir(path.join(__dirname, `projects/${projectName}`), err => {
+      if (err) reject(err)
+      resolve()
+    })
+  })
+  res.sendStatus(200)
+}))
+
 /*
 server.patch('/api/project/:projectName/test', basicRequestHandler(async (req, res) => {
   const { port, mockServerUrl } = req.body

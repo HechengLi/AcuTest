@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const REQUEST_PROJECT_LIST = 'REQUEST_PROJECT_LIST'
 export const RECEIVED_PROJECT_LIST = 'RECEIVED_PROJECT_LIST'
+export const DELETE_PROJECT = 'DELETE_PROJECT'
 
 function requestProjectList() {
   return {
@@ -23,5 +24,12 @@ export function getProjectList() {
     axios.get('/api/project').then(response => {
       dispatch(receivedProjectList(response.data))
     })
+  }
+}
+
+export function deleteProject(projectName) {
+  return {
+    type: DELETE_PROJECT,
+    projectName
   }
 }

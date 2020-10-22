@@ -3,11 +3,15 @@ import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { Button, Card, message, Popconfirm } from 'antd'
 import { SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import { deleteProject } from '../../store/projectList/actions'
+import { connect } from 'react-redux'
 
 const ProjectListItem = ({
-  projectName
+  projectName,
+  deleteProjectFromList
 }) => {
   const [testing, setTesting] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const history = useHistory()
 
   const startProject = () => {
@@ -29,6 +33,15 @@ const ProjectListItem = ({
   }
   const deleteProject = () => {
     if (testing) return
+    setDeleting(true)
+    axios.delete(`/api/project/${projectName}`)
+      .then(() => {
+        message.success(`Project ${projectName} delete successfully`, 5)
+        deleteProjectFromList(projectName)
+      }).catch(err => {
+        message.error(err.response.data, 5)
+        setDeleting(false)
+      })
   }
 
   return (
@@ -44,7 +57,7 @@ const ProjectListItem = ({
             } onClick={configProject}
           />
           {
-            testing
+            testing || deleting
               ? <DeleteOutlined style={{ color: 'gray', marginLeft: '5px' }} />
               : <Popconfirm
                 title="Are you sure delete this project?"
@@ -64,4 +77,11 @@ const ProjectListItem = ({
   )
 }
 
-export default ProjectListItem
+const mapDispatchToProps = dispatch => ({
+  deleteProjectFromList: projectName => dispatch(deleteProject(projectName))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProjectListItem)
