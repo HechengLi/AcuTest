@@ -8,6 +8,7 @@ import './App.css'
 
 import ProjectList from './container/project/ProjectList'
 import NewEditProject from './container/project/NewEditProject'
+import ConfigTest from './container/config/ConfigTest'
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route path="/project/:projectName">
             <NewEditProject />
+          </Route>
+          <Route path="/config/:projectName">
+            <ConfigTest />
           </Route>
         </Switch>
       </div>

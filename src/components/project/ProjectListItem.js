@@ -72,6 +72,7 @@ const ProjectListItem = ({
         </React.Fragment>
       }
     >
+      <Button className="btn-warning mr-3" type="primary" onClick={() => {history.push(`/config/${projectName}`)}}>Config Test</Button>
       <Button type="primary" onClick={() => {startProject()}} loading={testing}>{ testing ? 'Testing' : 'Start Test' }</Button>
     </Card>
   )

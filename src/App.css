@@ -70,3 +70,12 @@
 .App .ant-input {
   width: 200px;
 }
+
+.App .btn-warning {
+  background: #ffc107;
+  border-color: #ffc107;
+}
+
+.mr-3 {
+  margin-right: 1rem;
+}
