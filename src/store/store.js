@@ -1,11 +1,9 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
-import { alertReducer } from './alert/reducers'
 import { projectListReducer } from './projectList/reducers'
 
 const rootReducer = combineReducers({
-  alerts: alertReducer,
   projectList: projectListReducer
 })
 

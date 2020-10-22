@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { Button, Card, message, Popconfirm } from 'antd'
 import { SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
@@ -7,6 +8,7 @@ const ProjectListItem = ({
   projectName
 }) => {
   const [testing, setTesting] = useState(false)
+  const history = useHistory()
 
   const startProject = () => {
     if (testing) return
@@ -23,6 +25,7 @@ const ProjectListItem = ({
 
   const configProject = () => {
     if (testing) return
+    history.push(`/project/${projectName}`)
   }
   const deleteProject = () => {
     if (testing) return
